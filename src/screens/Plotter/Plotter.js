@@ -123,7 +123,7 @@ export default function Plotter() {
   }, [lists]);
   return (
     <Container>
-      <DragDropContainer>
+      <DragDropContainer id="drag-drop-conatiner">
         <DragDropContext
           onDragEnd={(result) => onHandleDragEnd(result, lists, setLists)}
         >

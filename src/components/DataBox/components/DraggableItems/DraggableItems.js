@@ -28,9 +28,9 @@ const DraggableItem = styled.div`
 export default function DraggableItems(props) {
   return (
     <>
-      <Container title={props.title}>
+      <Container title={props.title} id="draggable-list">
         <ListDiv title={props.title} id={props.title + "List"}>
-          {props.data.map((item, id) => {
+          {props.data?.map((item, id) => {
             return (
               <Draggable key={item.name} draggableId={item.name} index={id}>
                 {(provided) => {
@@ -40,7 +40,7 @@ export default function DraggableItems(props) {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <span>{item.name}</span>
+                      <span id="column-name">{item.name}</span>
                     </DraggableItem>
                   );
                 }}

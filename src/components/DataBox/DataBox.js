@@ -29,7 +29,7 @@ export default function DataBox(props) {
   return (
     <>
       <Container title={props.title}>
-        <TitleHeader>{props.title}</TitleHeader>
+        <TitleHeader id="title">{props.title}</TitleHeader>
         <Droppable droppableId={props.title} key={props.title}>
           {(provided) => {
             return (
@@ -48,6 +48,7 @@ export default function DataBox(props) {
         </Droppable>
         <ButtonDiv title={props.title}>
           <Button
+            id="button"
             onClick={() => {
               props.clearField(props.title);
             }}

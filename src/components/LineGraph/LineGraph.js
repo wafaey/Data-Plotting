@@ -31,7 +31,7 @@ export default function LineGraph(props) {
   };
   return (
     <>
-      <Container>
+      <Container id="chart">
         <Chart
           id="MeasuresOverDimention"
           dataSource={props.dataSource}

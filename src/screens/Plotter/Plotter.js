@@ -23,7 +23,7 @@ export default function Plotter() {
     Dimension: [],
     Measure: [],
   });
-  const [dataValue, setDataValue] = useState([]);
+  const [dataValues, setDataValues] = useState([]);
   const getAvailableColumns = () => {
     API.getAvailableColumns()
       .then((response) => {
@@ -58,7 +58,7 @@ export default function Plotter() {
               });
             }
           });
-          setDataValue(customizedData);
+          setDataValues(customizedData);
         } else {
           alert("An error happened while getting data values");
         }
@@ -67,11 +67,49 @@ export default function Plotter() {
         alert("An error happened while getting data values");
       });
   };
-  const clearField = () => {
-  
+  const clearField = (title) => {
+    if (title === "Dimension") {
+      lists.Columns = [...lists.Columns, ...lists.Dimension];
+      lists.Dimension = [];
+      setLists({ ...lists });
+    } else {
+      lists.Columns = [...lists.Columns, ...lists.Measure];
+      lists.Measure = [];
+      setLists({ ...lists });
+    }
   };
-  const onHandleDragEnd = () => {
-  
+  const onHandleDragEnd = (result, lists, setLists) => {
+    const { source, destination } = result;
+    if (
+      !result.destination ||
+      (lists.Dimension.length > 0 && destination.droppableId === "Dimension")
+    )
+      return;
+
+    if (
+      source.droppableId !== destination.droppableId &&
+      (destination.droppableId.toLowerCase() ===
+        lists[source.droppableId][source.index].function ||
+        destination.droppableId === "Columns")
+    ) {
+      const sourceItems = lists[source.droppableId];
+      const destItems = lists[destination.droppableId];
+      const [removed] = sourceItems.splice(source.index, 1);
+      destItems.splice(destination.index, 0, removed);
+      setLists({
+        ...lists,
+        [source.droppableId]: sourceItems,
+        [destination.droppableId]: destItems,
+      });
+    } else {
+      const copiedItems = lists[source.droppableId];
+      const [removed] = copiedItems.splice(source.index, 1);
+      copiedItems.splice(destination.index, 0, removed);
+      setLists({
+        ...lists,
+        [source.droppableId]: copiedItems,
+      });
+    }
   };
   useEffect(() => {
     getAvailableColumns();
@@ -81,7 +119,7 @@ export default function Plotter() {
     if (lists.Dimension.length > 0 && lists.Measure.length > 0) {
       getColumnsDataValues(lists.Dimension, lists.Measure);
     }
-    return () => setDataValue([]);
+    return () => setDataValues([]);
   }, [lists]);
   return (
     <Container>
@@ -107,7 +145,7 @@ export default function Plotter() {
         </DragDropContext>
       </DragDropContainer>
       <div>
-        <LineGraph dataSource={dataValue}  />
+        <LineGraph dataSource={dataValues} dimension={lists.Dimension[0]} />
       </div>
     </Container>
   );

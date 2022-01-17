@@ -26,15 +26,6 @@ const RequestHandler = {
         url,
         data,
         headers: {
-          // 'crossOrigin': true,
-          // 'Access-Control-Allow-Origin': 'http://localhost:3000/',
-          // 'Access-Control-Allow-Methods' : 'OPTIONS, GET, POST, HEAD, DELETE',
-          // 'Access-Control-Expose-Headers' : '',
-          // 'Access-Control-Allow-Headers' : 'Content-Type, Acccept, Access-Control-Allow-Origin, Authorization',
-          // 'Access-Control-Max-Age' : '21600',
-          // 'Allow': 'OPTIONS, GET, POST, HEAD, DELETE',
-          // 'Content-Type':  Global.contentType,
-          // 'redirect': 'follow'
         },
       })
         .then(function (response) {
